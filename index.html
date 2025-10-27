@@ -1,0 +1,437 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Modal / login styles */
+        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); display:none; align-items:center; justify-content:center; z-index:1000; }
+        .modal[aria-hidden="false"]{ display:flex; }
+        .modal-content{ background:#fff; padding:20px; border-radius:8px; min-width:320px; max-width:420px; position:relative; box-shadow:0 6px 24px rgba(0,0,0,0.2); }
+        .modal .close{ position:absolute; right:12px; top:8px; font-size:24px; cursor:pointer; }
+        .captcha-box{ display:inline-block; padding:8px 12px; background:#f0f0f0; border:1px solid #ccc; margin-left:8px; font-weight:bold; letter-spacing:3px; }
+        .watch-btn{ background:#ff4141; color:#fff; border:none; padding:8px 12px; border-radius:6px; cursor:pointer }
+
+        header {
+            height: 100px;
+            background-color: black;
+            display: flex;
+        }
+
+        body {
+            margin: 0px;
+        }
+
+        ul {
+            padding-top: 30px;
+            padding-left: 200px;
+            list-style-type: none;
+            display: flex;
+        }
+
+        li {
+            font-size: 22px;
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+            padding-left: 60px;
+        }
+
+        main {
+            height: 2200px;
+            background-color: rgb(211, 211, 211);
+        }
+
+        footer {
+            height: 500px;
+            background-color: black;
+            display: flex;
+            text-align: center;
+            justify-content: space-around;
+            color: white;
+
+
+        }
+    
+    </style>
+    <style id=" "__web-inspector-hide-shortcut__">
+    
+.__web-inspector-hide-shortcut__, .__web-inspector-hide-shortcut__ *, .__web-inspector-hidebefore-shortcut__::before, .__web-inspector-hideafter-shortcut__::after
+{
+    visibility: hidden !important;
+}
+</style>
+ </head>
+ <body>
+    <header>
+        <img src="images/logo.png" height="100" width="100" alt="Logo">
+        <nav>
+            <ul>
+                <li>Home</li>
+                <li>About</li>
+                <li>Movies</li>
+                <li>Contact</li>
+                                <div style="padding-left:250px;padding-right:30px;">
+                                        <li><button id="loginBtn" style="width:100px;height:30px;border-radius:20px;">Login</button></li>
+                                </div>
+            </ul>
+        </nav>
+    </header>
+        <!-- Login modal -->
+        <div id="loginModal" class="modal" aria-hidden="true">
+            <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+                <span class="close" id="closeModal">&times;</span>
+                <h2 id="loginTitle">Login</h2>
+
+                <div id="step1" class="step">
+                    <label for="mobile">Mobile number</label><br>
+                    <input id="mobile" type="tel" placeholder="Enter mobile number" maxlength="10" style="width:100%;padding:8px;margin-top:6px;" />
+
+                    <div style="margin-top:12px;">
+                        <label>Captcha:</label>
+                        <span id="captchaText" class="captcha-box"></span>
+                        <button id="regenCaptcha" type="button" style="margin-left:8px;" class="watch-btn">Regenerate</button>
+                    </div>
+                    <input id="captchaInput" type="text" placeholder="Enter captcha" style="width:100%;padding:8px;margin-top:8px;" />
+
+                    <div style="margin-top:12px;text-align:right;">
+                        <button id="sendOtpBtn" class="watch-btn">Send OTP</button>
+                    </div>
+                </div>
+
+                <div id="step2" class="step" style="display:none;">
+                    <p>OTP sent to <strong><span id="mobileDisplay"></span></strong></p>
+                    <input id="otpInput" type="text" placeholder="Enter OTP" maxlength="6" style="width:100%;padding:8px;margin-top:6px;" />
+                    <div style="margin-top:12px; text-align:right;">
+                        <button id="verifyOtpBtn" class="watch-btn">Verify OTP</button>
+                        <button id="resendOtpBtn" class="watch-btn" style="margin-left:8px;">Resend OTP</button>
+                    </div>
+                    <p id="otpMessage" style="color:#333;margin-top:8px;font-size:14px"></p>
+                </div>
+
+            </div>
+        </div>
+    <main>
+        <img src="movieHub.png" height="300" width="100%" alt="Banner">
+        <h2 style ="text-align: center;font-size:42px;margin-top:20px;">Welcome to MovieHub</h2>
+        <section style="height:400px; background-color: white; display: flex;">
+            <img src="movieHub.png" height="350" width="300" alt="Featured Movie" style="margin: 25px;">
+            <p style="padding: 50px; font-family: arial,helvetica,sans-serif;">
+                MovieHub is your ultimate destination for all things movies. Whether you're a casual viewer or a die-hard cinephile, we've got something for everyone. Explore our extensive collection of films from various genres, eras, and countries. Stay updated with the latest releases, read in-depth reviews, and discover hidden gems recommended by our community. Join us today and dive into the world of cinema like never before!
+            </p>
+        </section>
+        <h2 style="text-align: center; font-size: 42px;">Discover Your Next Favorite Movie</h2>
+        <div style="padding: 20px;">
+            <div style ="display: flex;">
+                <div style="background-color:#15b4e9; color: aliceblue; width: 100%;">
+                    <h3 style="font-size: 30px; margin: 10px;">Blockbuster Movies</h3>
+                    <div style="display: flex;padding: 20px;">
+                        <div style="width:220px; padding-left: 20px;">
+                            <a href="bhahubalitheepic.html">
+                                <img src="bhahubalitheepic.jpg" height="200" width="150" alt="Bhahubali The Epic" style="margin-right:20px;"></a>
+                                <p> Bhahubali The Epic</p>
+                            </a>
+                        </div>
+                        <div style="width: 220px; padding-left: 20px;">
+                            <a href="aakasham.html">
+                                <img src="ni.jpg" height="200" width="150" alt="Aakasham Ni Haddura" style="margin-right:20px;"></a>
+                                <p> Aakasham Ni Haddura</p>
+                            </a>
+                        </div>
+                        <div style="width: 220px; padding-left: 20px;">
+                            <a href="et.html">
+                                <img src="et.jpg" height="200" width="150" alt="E.T. The Extra-Terrestrial" style="margin-right:20px;"></a>
+                                <p> E.T. The Extra-Terrestrial</p>
+                            </a>
+                        </div>
+                        <div style="width: 220px; padding-left: 20px;">
+                            <a href="vikram.html">
+                                <img src="vikram.jpg" height="200" width="150" alt="Vikram" style="margin-right:20px;"></a>
+                                <p> Vikram</p>
+                            </a>
+                        </div>
+                        <div style="width: 220px; padding-left: 20px;">
+                            <a href="eaga.html">
+                                <img src="eaga.jpg" height="200" width="150" alt="Eaga" style="margin-right:20px;"></a>
+                                <p> Eaga</p>
+                            </a>
+                        </div>
+                        <div style="width: 220px; padding-left: 20px;">
+                            <a href="rangastalam.html">
+                                <img src="rangastalam.jpg" height="200" width="150" alt="Rangastalam" style="margin-right:20px;"></a>
+                                <p> Rangastalam</p>
+                            </a>
+                        </div>
+                        <div style="width: 220px; padding-left: 20px;">
+                            <a href="pushpa-2.html">
+                                <img src="pushpa-2.jpg" height="200" width="150" alt="Pushpa: The Rise" style="margin-right:20px;"></a>
+                                <p> Pushpa: The Rise</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="padding: 20px;">
+                <div style ="display: flex;">
+                <div style="background-color:#3c15e9; color: rgb(250, 255, 240); width: 100%;">
+                    <h3 style="font-size: 30px; margin: 10px;">Best and Popular Movies</h3>
+                    <div style="display: flex; padding: 20px;">
+                        <div style="width:220px; padding-left: 20px;">
+                            <a href="jersey.html">
+                                <img src="jersey.jpg" height="200" width="150" alt="Jersey" style="margin-right:20px;"></a>
+                                <p> Jersey</p>
+                            </a>
+                        </div>
+                        <div style="width: 220px; padding-left: 20px;">
+                            <a href="svsc.html">
+                                <img src="svsc.jpg" height="200" width="150" alt="SVSC" style="margin-right:20px;"></a>
+                                <p> SVSC</p>
+                            </a>
+                        </div>
+                        <div style="width: 220px; padding-left: 20px;">
+                            <a href="sundaram.html">
+                                <img src="sundaram.jpg" height="200" width="150" alt="Sundaram" style="margin-right:20px;"></a>
+                                <p> Ante Sundaraniki</p>
+                            </a>
+                        </div>
+                        <div style="width: 220px; padding-left: 20px;">
+                            <a href="lukky.html">
+                                <img src="lukky.jpg" height="200" width="150" alt="Lucky Baskar" style="margin-right:20px;"></a>
+                                <p> Lucky Baskar</p>
+                            </a>
+                        </div>
+                        <div style="width: 220px; padding-left: 20px;">
+                            <a href="drogan.html">
+                                <img src="drogan.jpg" height="200" width="150" alt="Return of The Drogan" style="margin-right:20px;"></a>
+                                <p> Return of The Drogon</p>
+                            </a>
+                        </div>
+                        <div style="width: 220px; padding-left: 20px;">
+                            <a href="12th.html">
+                                <img src="12th.jpg" height="200" width="150" alt="12 th Fail" style="margin-right:20px;"></a>
+                                <p> 12th Fail</p>
+                            </a>
+                        </div>
+                        <div style="width: 220px; padding-left: 20px;">
+                            <a href="ntr.html">
+                                <img src="ntr.jpg" height="200" width="150" alt="NTR" style="margin-right:20px;"></a>
+                                <p>Aravinda Sametha Veera Raghava</p>
+</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="padding: 20px;">
+                <div style="display: flex;">
+                    <div style="background-color:#e915bf; color: rgba(255, 255, 255, 0.882); width: 100%;">
+                        <h3 style="font-size: 30px; margin: 10px;">love Movies</h3>
+                        <div style="display: flex; padding: 20px;">
+                            <div style="width:220px; padding-left: 20px;">
+                                <a href="kumari21f.html">
+                                    <img src="Kumari-21F.jpg" height="200" width="150" alt="Kumari 21F" style="margin-right:20px;"></a>
+                                    <p> Kumari 21F</p>
+                                </a>
+                            </div>
+                            <div style="width: 220px; padding-left: 20px;">
+                                <a href="colour.html">
+                                    <img src="color.jpg" height="200" width="150" alt="Colour Photo" style="margin-right:20px;"></a>
+                                    <p> Colour Photo</p>
+                                </a>
+                            </div>
+                            <div style="width: 220px; padding-left: 20px;">
+                                <a href="sammathame.html">
+                                    <img src="sammathame.jpg" height="200" width="150" alt="Sammathame" style="margin-right:20px;"></a>
+                                    <p> Sammathame</p>
+                                </a>
+                            </div>
+                            <div style="width: 220px; padding-left: 20px;">
+                                <a href="saiyaara.html">
+                                    <img src="saiyaara.jpg" height="200" width="150" alt="Saiyaara" style="margin-right:20px;"></a>
+                                    <p> Saiyaara</p>
+                                </a>
+                            </div>
+                            <div style="width: 220px; padding-left: 20px;">
+                                <a href="baby.html">
+                                    <img src="baby.jpg" height="200" width="150" alt="Baby" style="margin-right:20px;"></a>
+                                    <p> Baby</p>
+                                </a>
+                            </div>
+                            <div style="width: 220px; padding-left: 20px;">
+                                <a href="heart.html">
+                                    <img src="heart.jpg" height="200" width="150" alt="Heart Attack" style="margin-right:20px;"></a>
+                                    <p> Heart Attack</p>
+                                </a>
+                             </div>
+                            <div style="width: 220px; padding-left: 20px;">
+                                <a href="lover.html">
+                                    <img src="lover.jpeg" height="200" width="150" alt="Lover" style="margin-right:20px;"></a>
+                                    <p> Lover</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="padding: 20px;">
+                <div style="display: flex;">
+                    <div style="background-color:#e9a115; color: rgb(0, 0, 0); width: 100%;">
+                        <h3 style="font-size: 30px; margin: 10px;">Horror Movies</h3>
+                        <div style="display: flex; padding: 20px;">
+                            <div style="width:220px; padding-left: 20px;">
+                                <a href="kanchana.html">
+                                    <img src="kanchana.jpg" height="200" width="150" alt="Kanchana" style="margin-right:20px;"></a>
+                                    <p> Kanchana</p>
+                                </a>
+                            </div>
+                            <div style="width: 220px; padding-left: 20px;">
+                                <a href="odela.html">
+                                    <img src="odela.jpg" height="200" width="150" alt="Odelam" style="margin-right:20px;"></a>
+                                    <p> Odelam 2</p>
+                                </a>
+                            </div>
+                            <div style="width: 220px; padding-left: 20px;">
+                                <a href="tantra.html">
+                                    <img src="tantra.jpg" height="200" width="150" alt="Tantra" style="margin-right:20px;"></a>
+                                    <p> Tantra</p>
+                                </a>
+                            </div>
+                            <div style="width: 220px; padding-left: 20px;">
+                                <a href="arundhati.html">
+                                    <img src="arundhati.jpg" height="200" width="150" alt="Arundhati" style="margin-right:20px;"></a>
+                                    <p> Arundhati</p>
+                                </a>
+                            </div>
+                            <div style="width: 220px; padding-left: 20px;">
+                                <a href="brahmayugam.html">
+                                    <img src="brahma.jpg" height="200" width="150" alt="Brahmayugam" style="margin-right:20px;"></a>
+                                    <p>Brahmayugam</p>
+                                </a>
+                            </div>
+                            <div style="width: 220px; padding-left: 20px;">
+                                <a href="tripura.html">
+                                    <img src="tripura.jpg" height="200" width="150" alt="tripura" style="margin-right:20px;"></a>
+                                    <p>Tripura</p>
+                                </a>
+                            </div>
+                            <div style="width: 220px; padding-left: 20px;">
+                                <a href="ganga.html">
+                                    <img src="ganga.jpg" height="200" width="150" alt="Ganaga" style="margin-right:20px;"></a>
+                                    <p> Ganga</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer style="padding-top: 440px;">
+           <h4 style="text-align:center; color:white; font-family: Arial, Helvetica, sans-serif;">Questions? Call 000-800-919-1743</h4>
+           <br><div style="width:200px; line-height:1.8;">
+      <a href="#" style="color:white; text-decoration:none;">FAQ</a><br>
+      <a href="#" style="color:white; text-decoration:none;">Investor Relations</a><br>
+      <a href="#" style="color:white; text-decoration:none;">Privacy</a><br>
+      <a href="#" style="color:white; text-decoration:none;">Speed Test</a>
+      </div>
+      <div style="width:200px; line-height:1.8;">
+      <a href="#" style="color:white; text-decoration:none;">Help Centre</a><br>
+      <a href="#" style="color:white; text-decoration:none;">Jobs</a><br>
+      <a href="#" style="color:white; text-decoration:none;">Cookie Preferences</a><br>
+      <a href="#" style="color:white; text-decoration:none;">Legal Notices</a>
+    </div>
+    <div style="width:200px; line-height:1.8;">
+      <a href="#" style="color:white; text-decoration:none;">Account</a><br>
+      <a href="#" style="color:white; text-decoration:none;">Ways to Watch</a><br>
+      <a href="#" style="color:white; text-decoration:none;">Corporate Information</a><br>
+      <a href="#" style="color:white; text-decoration:none;">Only on Netflix</a>
+    </div>
+    <div style="width:200px; line-height:1.8;">
+      <a href="#" style="color:white; text-decoration:none;">Media Centre</a><br>
+      <a href="#" style="color:white; text-decoration:none;">Terms of Use</a><br>
+      <a href="#" style="color:white; text-decoration:none;">Contact Us</a>
+    </div>
+    <center>
+        <marque><p style="padding-top: 440px;">© 2025 Anitha Marampalli. All Rights Reserved.</p></marque>
+        </center>
+                </footer>
+
+        <script>
+            (function(){
+                const loginBtn = document.getElementById('loginBtn');
+                const modal = document.getElementById('loginModal');
+                const closeModal = document.getElementById('closeModal');
+                const regenCaptcha = document.getElementById('regenCaptcha');
+                const captchaText = document.getElementById('captchaText');
+                const sendOtpBtn = document.getElementById('sendOtpBtn');
+                const mobileInput = document.getElementById('mobile');
+                const captchaInput = document.getElementById('captchaInput');
+                const step1 = document.getElementById('step1');
+                const step2 = document.getElementById('step2');
+                const mobileDisplay = document.getElementById('mobileDisplay');
+                const otpInput = document.getElementById('otpInput');
+                const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+                const resendOtpBtn = document.getElementById('resendOtpBtn');
+                const otpMessage = document.getElementById('otpMessage');
+
+                let currentCaptcha = '';
+                let currentOtp = '';
+                let resendDisabled = false;
+
+                function genCaptcha(len=4){
+                    const chars = 'ABCDEFGHJKLMNPQRSTUVWXY3456789';
+                    let s=''; for(let i=0;i<len;i++){ s+=chars.charAt(Math.floor(Math.random()*chars.length)); }
+                    return s;
+                }
+                function genOtp(){ return String(Math.floor(1000 + Math.random()*9000)); }
+
+                function openModal(){
+                    modal.setAttribute('aria-hidden','false');
+                    step1.style.display='block'; step2.style.display='none';
+                    mobileInput.value=''; captchaInput.value=''; otpInput.value=''; otpMessage.textContent='';
+                    currentCaptcha = genCaptcha(); captchaText.textContent = currentCaptcha;
+                }
+                function close(){ modal.setAttribute('aria-hidden','true'); }
+
+                loginBtn.addEventListener('click', openModal);
+                closeModal.addEventListener('click', close);
+                modal.addEventListener('click', function(e){ if(e.target===modal) close(); });
+
+                regenCaptcha.addEventListener('click', function(){ currentCaptcha = genCaptcha(); captchaText.textContent = currentCaptcha; });
+
+                sendOtpBtn.addEventListener('click', function(){
+                    const m = mobileInput.value.trim();
+                    const c = captchaInput.value.trim().toUpperCase();
+                    if(!/^\d{10}$/.test(m)){ alert('Please enter a valid 10-digit mobile number'); mobileInput.focus(); return; }
+                    if(!c || c !== currentCaptcha){ alert('Captcha does not match'); captchaInput.focus(); return; }
+                    // success: generate OTP and show step 2
+                    currentOtp = genOtp();
+                    mobileDisplay.textContent = m;
+                    step1.style.display='none'; step2.style.display='block';
+                    otpMessage.textContent = 'OTP sent. (For demo, OTP is: ' + currentOtp + ')';
+                    // disable resend for 8s
+                    resendOtpBtn.disabled = true; resendDisabled = true;
+                    setTimeout(()=>{ resendOtpBtn.disabled = false; resendDisabled = false; }, 8000);
+                });
+
+                resendOtpBtn.addEventListener('click', function(){
+                    if(resendDisabled) return;
+                    currentOtp = genOtp();
+                    otpMessage.textContent = 'OTP resent. (For demo, OTP is: ' + currentOtp + ')';
+                    resendOtpBtn.disabled = true; resendDisabled = true;
+                    setTimeout(()=>{ resendOtpBtn.disabled = false; resendDisabled = false; }, 8000);
+                });
+
+                verifyOtpBtn.addEventListener('click', function(){
+                    const v = otpInput.value.trim();
+                    if(!v){ alert('Enter OTP'); otpInput.focus(); return; }
+                    if(v === currentOtp){ alert('Login successful'); close(); }
+                    else { alert('Invalid OTP'); }
+                });
+
+                // initialize captcha text for case when modal opened via keyboard etc.
+                document.addEventListener('DOMContentLoaded', function(){ currentCaptcha = genCaptcha(); if(captchaText) captchaText.textContent=currentCaptcha; });
+            })();
+        </script>
+
+        </body>
+        </html>
